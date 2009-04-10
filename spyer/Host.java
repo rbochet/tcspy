@@ -24,6 +24,7 @@ public class Host extends Thread {
 	private ImageIcon i_up;
 	private ImageIcon s_down;
 	private ImageIcon s_up;
+	private ImageIcon srv;
 
 	public JLabel jName;
 	public JLabel jUp;
@@ -45,16 +46,15 @@ public class Host extends Thread {
 		
 		this.runner = true;
 		
-		this.jName = new JLabel(name);
-		this.jUp = new JLabel("Computing ...");
-		this.jUp.setIcon(i_down);
-		this.jService = new JLabel("Computing ...");
-		this.jService.setIcon(s_down);
+		i_down = 	new ImageIcon("/home/romain/workspace/tc-spy/src/spyer/down.png",  "Server Down");
+		i_up = 		new ImageIcon("/home/romain/workspace/tc-spy/src/spyer/up.png", "Server Up");
+		s_down = 	new ImageIcon("/home/romain/workspace/tc-spy/src/spyer/s_down.png", "Service Down");
+		s_up = 		new ImageIcon("/home/romain/workspace/tc-spy/src/spyer/s_up.png", "Service Up");
+		srv  =		new ImageIcon("/home/romain/workspace/tc-spy/src/spyer/srv.png", "Server");
 		
-		i_down = 	new ImageIcon("down.jpg");
-		i_up = 		new ImageIcon("up.jpg");
-		s_down = 	new ImageIcon("s_down.jpg");
-		s_up = 		new ImageIcon("s_up.jpg");
+		this.jName = new JLabel(name, srv, JLabel.LEFT);
+		this.jUp = new JLabel(i_down);
+		this.jService = new JLabel(s_down);
 	}
 	
 
@@ -129,9 +129,15 @@ public class Host extends Thread {
 		} catch (IOException e) {
 			this.service = false;
 		}
-
-		this.jUp.setText("Up : "+this.up);
-		this.jService.setText("Service : "+this.service);
+		if(up)
+			this.jUp.setIcon(i_up);
+		else
+			this.jUp.setIcon(i_down);
+		if(up)
+			this.jService.setIcon(s_up);
+		else
+			this.jService.setIcon(s_down);
+		
 	}
 	
 	public JLabel getJName() {
@@ -146,5 +152,10 @@ public class Host extends Thread {
 
 	public JLabel getJService() {
 		return jService;
+	}
+
+
+	public void majTime(int time) {
+		this.time = time;
 	}
 }
